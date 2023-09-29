@@ -29,13 +29,13 @@ public class User implements UserDetails{
     private Long id;
 
     @Column(nullable = false, length = 50)
-    private String nome;
+    private String name;
 
     @Column(nullable = false, length = 50)
     private String email;
 
     @Column(nullable = false, length = 255)
-    private String senha;
+    private String password;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -56,7 +56,7 @@ public class User implements UserDetails{
     @Override
     public String getPassword() {
         // TODO Auto-generated method stub
-        return senha;
+        return password;
     }
 
     @Override

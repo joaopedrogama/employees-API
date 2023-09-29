@@ -1,4 +1,4 @@
 package com.ssysemployees.users.dto;
 
-public record LoginDto(String email, String senha) {
+public record LoginDto(String email, String password) {
 }
