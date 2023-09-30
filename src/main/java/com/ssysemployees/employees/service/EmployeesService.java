@@ -2,6 +2,7 @@ package com.ssysemployees.employees.service;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.ssysemployees.core.config.handler.ServiceException;
@@ -36,6 +37,7 @@ public class EmployeesService {
     public Employee update(Employee employee) throws ServiceException {
         try {
             Employee existingEmployee = repository.findById(employee.getId()).orElse(null);
+            BeanUtils.copyProperties(employee, existingEmployee);
             return repository.save(existingEmployee);
         } catch (Exception e) {
             throw new ServiceException("Não foi possível atualizar o colaborador.");
