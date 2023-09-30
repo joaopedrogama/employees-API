@@ -32,5 +32,14 @@ public class EmployeesService {
             throw new ServiceException("Não foi possível buscar os colaboradores.");
         }
     }
+
+    public Employee update(Employee employee) throws ServiceException {
+        try {
+            Employee existingEmployee = repository.findById(employee.getId()).orElse(null);
+            return repository.save(existingEmployee);
+        } catch (Exception e) {
+            throw new ServiceException("Não foi possível atualizar o colaborador.");
+        }
+    }
     
 }

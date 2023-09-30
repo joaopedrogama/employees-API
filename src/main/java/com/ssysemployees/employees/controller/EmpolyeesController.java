@@ -1,7 +1,6 @@
 package com.ssysemployees.employees.controller;
 
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ssysemployees.core.config.handler.ServiceException;
 import com.ssysemployees.employees.domain.Employee;
 import com.ssysemployees.employees.dto.EmployeesDto;
@@ -16,13 +15,14 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @AllArgsConstructor
-@SecurityRequirement(name = "bearer-key")
 @RestController
 @RequestMapping("/api/employees")
 public class EmpolyeesController {
@@ -49,6 +49,16 @@ public class EmpolyeesController {
         }
 
         return ResponseEntity.ok(employeesDto);
-    }   
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EmployeesDto> update(@RequestBody @Valid EmployeesDto employeeDto, @PathVariable Long id) throws ServiceException {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDto, employee);
+        employee.setId(id);
+        employee = employeesService.update(employee);
+        BeanUtils.copyProperties(employee, employeeDto);
+        return ResponseEntity.ok(employeeDto);
+    }
     
 }

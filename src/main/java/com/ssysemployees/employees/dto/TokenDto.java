@@ -1,4 +1,4 @@
-package com.ssysemployees.users.dto;
+package com.ssysemployees.employees.dto;
 
 import lombok.Data;
 
