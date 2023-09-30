@@ -6,14 +6,15 @@ import com.ssysemployees.employees.domain.Employee;
 import com.ssysemployees.employees.dto.EmployeesDto;
 import com.ssysemployees.employees.service.EmployeesService;
 
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +32,7 @@ public class EmpolyeesController {
 
 
     @PostMapping
-    public ResponseEntity<EmployeesDto> postMethodName(@RequestBody @Valid EmployeesDto employeeDto) throws ServiceException {
+    public ResponseEntity<EmployeesDto> create(@RequestBody @Valid EmployeesDto employeeDto) throws ServiceException {
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDto, employee);
         employee = employeesService.save(employee);
@@ -59,6 +60,16 @@ public class EmpolyeesController {
         employee = employeesService.update(employee);
         BeanUtils.copyProperties(employee, employeeDto);
         return ResponseEntity.ok(employeeDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable Long id) throws ServiceException {
+        try {
+            employeesService.delete(id);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().build();
     }
     
 }

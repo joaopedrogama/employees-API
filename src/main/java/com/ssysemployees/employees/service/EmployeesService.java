@@ -43,5 +43,13 @@ public class EmployeesService {
             throw new ServiceException("Não foi possível atualizar o colaborador.");
         }
     }
+
+    public void delete(Long id) throws ServiceException {
+        try {
+            repository.deleteById(id);
+        } catch (Exception e) {
+            throw new ServiceException("Não foi possível deletar o colaborador.");
+        }
+    }
     
 }
