@@ -2,11 +2,15 @@ package com.ssysemployees.employees.dto;
 
 import java.time.OffsetDateTime;
 
+import com.ssysemployees.employees.domain.Employee;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class EmployeesDto {
 
     private Long id;
@@ -20,4 +24,13 @@ public class EmployeesDto {
     private Long salary;
 
     private OffsetDateTime birthDate;
+
+    public EmployeesDto(Employee employee) {
+        this.id = employee.getId();
+        this.name = employee.getName();
+        this.email = employee.getEmail();
+        this.Department = employee.getDepartment();
+        this.salary = employee.getSalary();
+        this.birthDate = employee.getBirthDate();
+    }
 }

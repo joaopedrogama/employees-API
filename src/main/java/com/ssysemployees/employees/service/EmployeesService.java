@@ -1,5 +1,7 @@
 package com.ssysemployees.employees.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.ssysemployees.core.config.handler.ServiceException;
@@ -20,6 +22,14 @@ public class EmployeesService {
             return repository.save(employee);
         } catch (Exception e) {
             throw new ServiceException("Não foi possível cadastrar o colaborador.");
+        }
+    }
+
+    public List<Employee> findAll() throws ServiceException {
+        try{
+            return repository.findAll();
+        } catch (Exception e) {
+            throw new ServiceException("Não foi possível buscar os colaboradores.");
         }
     }
     
