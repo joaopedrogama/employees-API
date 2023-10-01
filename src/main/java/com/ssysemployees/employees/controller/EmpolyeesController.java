@@ -22,15 +22,25 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * 
+ * @author joaopedrogama
+ */
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/employees")
+@RequestMapping("/employees")
 public class EmpolyeesController {
 
     private final EmployeesService employeesService;
 
-
+    /**
+     * cria um novo usuário
+     * 
+     * @param employeeDto - Body do json contendo os atributos de employee
+     * @return - 200
+     * @throws ServiceException
+     */
     @PostMapping
     public ResponseEntity<EmployeesDto> create(@RequestBody @Valid EmployeesDto employeeDto) throws ServiceException {
         Employee employee = new Employee();
@@ -40,11 +50,17 @@ public class EmpolyeesController {
         return ResponseEntity.ok(employeeDto);
     }
 
+    /**
+     * Lista todos os usuários registrados no banco
+     * 
+     * @return - Lista de EmployeesDto
+     * @throws ServiceException
+     */
     @GetMapping
     public ResponseEntity<List<EmployeesDto>> list() throws ServiceException {
         List<Employee> employees = employeesService.findAll();
         List<EmployeesDto> employeesDto = employees.stream().map(EmployeesDto::new).toList();
-        
+
         if (employeesDto.isEmpty()) {
             throw new ServiceException("Não foi possível buscar os colaboradores.");
         }
@@ -52,8 +68,17 @@ public class EmpolyeesController {
         return ResponseEntity.ok(employeesDto);
     }
 
+    /**
+     * Atualiza um employee já registrado
+     * 
+     * @param employeeDto - Body do json contendo os atributos do employee para atualizar
+     * @param id - ID do employee registrado
+     * @return
+     * @throws ServiceException
+     */
     @PutMapping("/{id}")
-    public ResponseEntity<EmployeesDto> update(@RequestBody @Valid EmployeesDto employeeDto, @PathVariable Long id) throws ServiceException {
+    public ResponseEntity<EmployeesDto> update(@RequestBody @Valid EmployeesDto employeeDto, @PathVariable Long id)
+            throws ServiceException {
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDto, employee);
         employee.setId(id);
@@ -62,6 +87,13 @@ public class EmpolyeesController {
         return ResponseEntity.ok(employeeDto);
     }
 
+    /**
+     * Delete um employee registrado
+     * 
+     * @param id - ID do employee que será deletado
+     * @return
+     * @throws ServiceException
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable Long id) throws ServiceException {
         try {
@@ -71,5 +103,20 @@ public class EmpolyeesController {
         }
         return ResponseEntity.ok().build();
     }
-    
+
+    /**
+     * Retorna um employee pelo ID do mesmo
+     * 
+     * @param id - ID do employee que será retornado na consulta
+     * @return
+     * @throws ServiceException
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<EmployeesDto> getOne(@PathVariable Long id) throws ServiceException {
+        Employee employee = employeesService.findById(id);
+        EmployeesDto employeesDto = new EmployeesDto();
+        BeanUtils.copyProperties(employee, employeesDto);
+        return ResponseEntity.ok(employeesDto);
+    }
+
 }
