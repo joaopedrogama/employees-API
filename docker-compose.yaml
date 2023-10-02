@@ -7,3 +7,25 @@ services:
       - 'POSTGRES_USER=postgres'
     ports:
       - 5333:5432
+    networks: 
+      - employee-network
+
+  ssys-employee:
+    build: .
+    container_name: ssys-employee-manager
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      - JDBC_DATABASE_URL=jdbc:postgresql://postgres:5432/employees
+      - JDBC_DATABASE_USERNAME=postgres
+      - JDBC_DATABASE_PASSWORD=employees
+    networks:
+      - employee-network
+    volumes:
+      - ~/.m2:/root/.m2
+
+networks:
+  employee-network:
+    driver: bridge
