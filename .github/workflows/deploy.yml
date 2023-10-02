@@ -33,16 +33,16 @@ jobs:
     needs: build-and-deploy-artifact
     runs-on: ubuntu-latest
     
-    steps:
-    - name: Deploy using ssh
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 22
-        script: |
-          docker stop employees-api
-          docker rm employees-api
-          docker pull joaopedrogama/employees-api:latest
-          docker run -d -p 8383:8080 --name employees-api joaopedrogama/employees-api:latest
+    # steps:
+    # - name: Deploy using ssh
+    #   uses: appleboy/ssh-action@master
+    #   with:
+    #     host: ${{ secrets.HOST }}
+    #     username: ${{ secrets.USERNAME }}
+    #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+    #     port: 22
+    #     script: |
+    #       docker stop employees-api
+    #       docker rm employees-api
+    #       docker pull joaopedrogama/employees-api:latest
+    #       docker run -d -p 8383:8080 --name employees-api joaopedrogama/employees-api:latest
