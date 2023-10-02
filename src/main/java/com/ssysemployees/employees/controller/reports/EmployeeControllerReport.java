@@ -57,7 +57,7 @@ public class EmployeeControllerReport {
      */
     @GetMapping("/salary")
     public ResponseEntity<EmployeeSalaryReportDto> salaryReport() throws ServiceException {
-        List<Employee> employees = employeesService.ageReport();
+        List<Employee> employees = employeesService.salaryReport();
         EmployeeSalaryReportDto employeesSalaryReportDto = new EmployeeSalaryReportDto();
         EmployeesDto highest = new EmployeesDto();
         EmployeesDto lowest = new EmployeesDto();

@@ -102,6 +102,23 @@ public class EmployeesService {
      * @return
      * @throws ServiceException
      */
+    public List<Employee> salaryReport() throws ServiceException {
+        try {
+            List<Employee> employees = new ArrayList<>();
+            employees.add(repository.findHighestSalary());
+            employees.add(repository.findLowestEmployee());
+            return employees;
+        } catch (Exception e) {
+            throw new ServiceException("Não foi possível buscar os colaboradores.");
+        }
+    }
+
+    /**
+     * Encontra um employee por ID
+     * 
+     * @return
+     * @throws ServiceException
+     */
     public Employee findById(Long id) throws ServiceException {
         return repository.findById(id)
                 .orElseThrow(() -> new ServiceException("Não foi possível buscar o colaborador de id: " + id));
