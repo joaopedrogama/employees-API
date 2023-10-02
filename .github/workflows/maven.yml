@@ -1,0 +1,31 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+        
+    - name: Subindo banco de dados postgres
+      run: docker-compose up -d
+      
+    - name: Build with Maven
+      run: mvn --batch-mode -DskipTests package
+
+    - name: Descendo banco de dados
+      run: docker-compose down
