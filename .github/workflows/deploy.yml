@@ -29,20 +29,29 @@ jobs:
           joaopedrogama/employees-api:${{ github.sha }}
           joaopedrogama/employees-api:latest
           
-  # deploy-EC2:
-  #   needs: build-and-deploy-artifact
-  #   runs-on: ubuntu-latest
+  deploy:
+    needs: build-and-deploy-artifact
+    runs-on: ubuntu-latest
     
-    # steps:
-    # - name: Deploy using ssh
-    #   uses: appleboy/ssh-action@master
-    #   with:
-    #     host: ${{ secrets.HOST }}
-    #     username: ${{ secrets.USERNAME }}
-    #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-    #     port: 22
-    #     script: |
-    #       docker stop employees-api
-    #       docker rm employees-api
-    #       docker pull joaopedrogama/employees-api:latest
-    #       docker run -d -p 8383:8080 --name employees-api joaopedrogama/employees-api:latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ env.DOCKER_USER }}
+        password: ${{ env.DOCKER_TOKEN }}
+    - name: Set permissions for private key
+      run: |
+        echo "${{ env.AWS_PRIVATE_KEY }}" > key.pem
+        chmod 600 key.pem
+    - name: Pull Docker image
+      run: |
+        ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@your-ec2-instance-ip 'sudo docker pull your-dockerhub-username/cddemo:latest'
+    - name: Stop running container
+      run: |
+        ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@ec2-18-229-141-72.sa-east-1.compute.amazonaws.com 'sudo docker stop employees-api || true'
+        ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@ec2-18-229-141-72.sa-east-1.compute.amazonaws.com 'sudo docker rm employees-api || true'
+    - name: Run new container
+      run: |
+        ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@ec2-18-229-141-72.sa-east-1.compute.amazonaws.com 'sudo docker run -d --name cddemo -p 8080:8080 joaopedrogama/employees-api:latest'
