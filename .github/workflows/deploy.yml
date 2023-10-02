@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Deploy pipeline
 
 on:
   push:
@@ -29,9 +29,9 @@ jobs:
           joaopedrogama/employees-api:${{ github.sha }}
           joaopedrogama/employees-api:latest
           
-  deploy-EC2:
-    needs: build-and-deploy-artifact
-    runs-on: ubuntu-latest
+  # deploy-EC2:
+  #   needs: build-and-deploy-artifact
+  #   runs-on: ubuntu-latest
     
     # steps:
     # - name: Deploy using ssh
