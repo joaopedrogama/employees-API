@@ -37,6 +37,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Stop Docker
+        run: sudo docker compose down
+
       - name: Run Docker
         run: sudo docker compose up -d
 
