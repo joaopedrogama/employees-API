@@ -31,7 +31,7 @@ jobs:
           
   deploy:
     needs: build-and-deploy-artifact
-    runs-on: self-hosted
+    runs-on: [self-hosted, linux, x64]
     
     steps:
       - name: checkout
@@ -41,5 +41,4 @@ jobs:
         run: docker pull joaopedrogama/employees-api:latest
 
       - name: run docker
-        run: docker run joaopedrogama/employees-api:latest
-    
+        run: docker run -d -p 80:8080 joaopedrogama/employees-api:latest
