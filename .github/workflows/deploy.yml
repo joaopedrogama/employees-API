@@ -43,20 +43,11 @@ jobs:
         username: ${{ secrets.DOCKER_USER }}
         password: ${{ secrets.DOCKER_TOKEN }}
         
-    - name: Set permissions for private key
-      run: |
-        echo "${{ env.AWS_PRIVATE_KEY }}" > key.pem
-        chmod 600 key.pem
-        
-    - name: Pull Docker image
-      run: |
-        ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@ec2-18-231-187-144.sa-east-1.compute.amazonaws.com 'sudo docker pull your-dockerhub-username/cddemo:latest'
-        
-    - name: Stop running container
-      run: |
-        ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@ec2-18-231-187-144.sa-east-1.compute.amazonaws.com 'sudo docker stop employees-api || true'
-        ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@ec2-18-231-187-144.sa-east-1.compute.amazonaws.com 'sudo docker rm employees-api || true'
-    
-    - name: Run new container
-      run: |
-        ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@ec2-18-231-187-144.sa-east-1.compute.amazonaws.com 'sudo docker run -d --name cddemo -p 8080:8080 joaopedrogama/employees-api:latest'
+    - name: deploy 
+      uses: bitovi/github-actions-deploy-docker-to-ec2@v0.5.8
+      with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_default_region: sa-east-1c
+        dot_env: ${{ secrets.DOT_ENV }}
+        ec2_instance_type: t2.micro
