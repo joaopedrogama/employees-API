@@ -37,7 +37,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Pull Docker
+      - name: Stop Docker
         run: sudo docker stop ssys-employee-manager
 
       - name: Pull Docker
