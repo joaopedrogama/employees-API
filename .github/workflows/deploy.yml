@@ -51,3 +51,5 @@ jobs:
         aws_default_region: sa-east-1c
         dot_env: ${{ secrets.DOT_ENV }}
         ec2_instance_type: t2.micro
+        domain_name: ec2-18-231-187-144.sa-east-1.compute.amazonaws.com
+        no_cert: true
