@@ -12,7 +12,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3.4.0
+      uses: actions/checkout@v4
       
     - name: Docker login
       uses: docker/login-action@v2.1.0
@@ -31,14 +31,14 @@ jobs:
           
   deploy:
     needs: build-and-deploy-artifact
-    runs-on: [self-hosted, linux, x64]
+    runs-on: self-hosted
     
     steps:
-      - name: checkout
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: pull docker
+      - name: Pull Docker
         run: docker pull joaopedrogama/employees-api:latest
 
-      - name: run docker
+      - name: Run Docker
         run: docker run -d -p 80:8080 joaopedrogama/employees-api:latest
