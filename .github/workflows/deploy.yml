@@ -38,7 +38,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Pull Docker
-        run: docker pull joaopedrogama/employees-api:latest
+        run: sudo docker stop joaopedrogama/employees-api:latest
+
+      - name: Pull Docker
+        run: sudo docker pull joaopedrogama/employees-api:latest
 
       - name: Run Docker
-        run: docker run -d -p 80:8080 joaopedrogama/employees-api:latest
+        run: sudo docker run -d -p 80:8080 joaopedrogama/employees-api:latest
