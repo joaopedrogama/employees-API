@@ -37,14 +37,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Stop Docker
-        run: sudo docker stop ssys-employee-manager
-
-      - name: Remove Docker
-        run: sudo docker rm ssys-employee-manager
-
-      - name: Pull Docker
-        run: sudo docker pull joaopedrogama/employees-api:latest
-
       - name: Run Docker
-        run: sudo docker run --name ssys-employee-manager -d -p 80:8080 joaopedrogama/employees-api:latest
+        run: sudo docker compose up -d
+
+      # - name: Remove Docker
+      #   run: sudo docker rm ssys-employee-manager
+
+      # - name: Pull Docker
+      #   run: sudo docker pull joaopedrogama/employees-api:latest
+
+      # - name: Run Docker
+      #   run: sudo docker run --name ssys-employee-manager -d -p 80:8080 joaopedrogama/employees-api:latest
