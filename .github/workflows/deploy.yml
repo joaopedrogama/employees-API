@@ -40,6 +40,9 @@ jobs:
       - name: Stop Docker
         run: sudo docker stop ssys-employee-manager
 
+      - name: Remove Docker
+        run: sudo docker rm ssys-employee-manager
+
       - name: Pull Docker
         run: sudo docker pull joaopedrogama/employees-api:latest
 
